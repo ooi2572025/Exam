@@ -31,7 +31,7 @@
                                placeholder="科目番号を入力してください">
                     </div>
 
-                    <%-- 科目名 --%>
+                    <%-- 科目名！ --%>
                     <div class="mb-3">
                         <label class="form-label" for="subject-name-input">科目名</label>
                         <input class="form-control" type="text"

@@ -13,7 +13,7 @@ public class SubjectCreateExecuteAction extends Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-        // フォームから値を取得
+        // フォームから値を取得!
         String id = req.getParameter("id");
         String name = req.getParameter("name");
 
