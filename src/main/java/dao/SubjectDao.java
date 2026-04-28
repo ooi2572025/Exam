@@ -15,7 +15,7 @@ public class SubjectDao extends Dao {
     public Subject get(String cd, School school) throws Exception {
         Subject subject = null;
 
-        String sql = "SELECT cd, name, school_cd FROM subject WHERE cd=? AND school_cd=?";
+        String sql = "SELECT subject_cd, subject_name, school_cd FROM subject WHERE subject_cd=? AND school_cd=?";
 
         try (Connection con = getConnection();
              PreparedStatement st = con.prepareStatement(sql)) {
@@ -27,8 +27,8 @@ public class SubjectDao extends Dao {
 
             if (rs.next()) {
                 subject = new Subject();
-                subject.setCd(rs.getString("cd"));
-                subject.setName(rs.getString("name"));
+                subject.setCd(rs.getString("subject_cd"));
+                subject.setName(rs.getString("subject_name"));
                 subject.setSchoolCd(rs.getString("school_cd"));
             }
         }
@@ -39,7 +39,7 @@ public class SubjectDao extends Dao {
     public List<Subject> filterBySchool(School school) throws Exception {
         List<Subject> list = new ArrayList<>();
 
-        String sql = "SELECT cd, name FROM subject WHERE school_cd=? ORDER BY cd";
+        String sql = "SELECT subject_cd, subject_name FROM subject WHERE school_cd=? ORDER BY subject_cd";
 
         try (Connection con = getConnection();
              PreparedStatement st = con.prepareStatement(sql)) {
@@ -49,8 +49,8 @@ public class SubjectDao extends Dao {
 
             while (rs.next()) {
                 Subject s = new Subject();
-                s.setCd(rs.getString("cd"));
-                s.setName(rs.getString("name"));
+                s.setCd(rs.getString("subject_cd"));
+                s.setName(rs.getString("subject_name"));
                 s.setSchoolCd(school.getSchoolCd());
                 list.add(s);
             }
@@ -60,7 +60,7 @@ public class SubjectDao extends Dao {
 
     // 新規登録（insert）
     public void insert(Subject subject) throws Exception {
-        String sql = "INSERT INTO subject(cd, name, school_cd) VALUES(?, ?, ?)";
+        String sql = "INSERT INTO subject(subject_cd, subject_name, school_cd) VALUES(?, ?, ?)";
 
         try (Connection con = getConnection();
              PreparedStatement st = con.prepareStatement(sql)) {
@@ -73,9 +73,9 @@ public class SubjectDao extends Dao {
         }
     }
 
- // 更新しん（update）
+    // 更新（update）
     public void update(Subject subject) throws Exception {
-        String sql = "UPDATE subject SET name=? WHERE cd=? AND school_cd=?";
+        String sql = "UPDATE subject SET subject_name=? WHERE subject_cd=? AND school_cd=?";
 
         try (Connection con = getConnection();
              PreparedStatement st = con.prepareStatement(sql)) {
@@ -90,7 +90,7 @@ public class SubjectDao extends Dao {
 
     // 削除（delete）
     public boolean delete(Subject subject) throws Exception {
-        String sql = "DELETE FROM subject WHERE cd=? AND school_cd=?";
+        String sql = "DELETE FROM subject WHERE subject_cd=? AND school_cd=?";
 
         try (Connection con = getConnection();
              PreparedStatement st = con.prepareStatement(sql)) {

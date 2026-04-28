@@ -18,6 +18,6 @@ public class SubjectCreateAction extends Action {
         req.setAttribute("subject", subject);
 
         // 登録フォームへフォワード
-        req.getRequestDispatcher("/subject_create.jsp").forward(req, res);
+        req.getRequestDispatcher("subject_create.jsp").forward(req, res);
     }
 }

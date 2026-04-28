@@ -1,10 +1,11 @@
 package scoremanager.main;
 
-import bean.School;
 import bean.Subject;
+import bean.Teacher;
 import dao.SubjectDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
 public class SubjectCreateExecuteAction extends Action {
@@ -12,24 +13,32 @@ public class SubjectCreateExecuteAction extends Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
+        HttpSession session = req.getSession();
+        Teacher teacher = (Teacher) session.getAttribute("user");
+
         // フォームから値を取得
-        String cd = req.getParameter("cd");     // ← id ではなく cdｓ
+        String cd = req.getParameter("cd");
         String name = req.getParameter("name");
 
-        // ログイン中の先生の school を取得
-        School school = (School) req.getSession().getAttribute("school");
+        // 未入力チェック
+        if (cd == null || cd.isEmpty() || name == null || name.isEmpty()) {
+            req.setAttribute("errorMessage", "このフィールドを入力してください");
+            req.setAttribute("cd", cd);
+            req.setAttribute("name", name);
+            req.getRequestDispatcher("subject_create.jsp").forward(req, res);
+            return;
+        }
 
-        // Subject を作成（画像の JavaBean 仕様に合わせる）
+        // Subjectを作成して登録
         Subject subject = new Subject();
         subject.setCd(cd);
         subject.setName(name);
-        subject.setSchoolCd(school.getSchoolCd());   // ← School オブジェクトではなく String
+        subject.setSchoolCd(teacher.getSchool().getSchoolCd());
 
-        // DAO を使って登録
         SubjectDao dao = new SubjectDao();
         dao.insert(subject);
 
         // 完了画面へ
-        req.getRequestDispatcher("/subject_create_done.jsp").forward(req, res);
+        req.getRequestDispatcher("subject_create_done.jsp").forward(req, res);
     }
 }

@@ -1,4 +1,4 @@
-scoremanager.main;
+package scoremanager.main;
 
 import bean.Subject;
 import bean.Teacher;
@@ -24,9 +24,9 @@ public class SubjectUpdateAction extends Action {
         Subject subject = subjectDao.get(code, teacher.getSchool());
 
         // リクエストに科目情報をセット
-        req.setAttribute("subject_code", subject.getSubjectCode());
-        req.setAttribute("subject_name", subject.getSubjectName());
-
+     // リクエストに科目情報をセット
+        req.setAttribute("cd", subject.getCd());
+        req.setAttribute("name", subject.getName());
         // JSPへフォワード
         req.getRequestDispatcher("subject_update.jsp").forward(req, res);
     }

@@ -22,14 +22,14 @@
                 <div class="mx-4">
 
                     <%-- 科目番号 --%>
-                    <div class="mb-3">
-                        <label class="form-label" for="subject-id-input">科目番号</label>
-                        <input class="form-control" type="text"
-                               id="subject-id-input" name="id"
-                               value="${id}"
-                               maxlength="10"
-                               placeholder="科目番号を入力してください">
-                    </div>
+			<div class="mb-3">
+			    <label class="form-label" for="subject-id-input">科目番号</label>
+			    <input class="form-control" type="text"
+			           id="subject-id-input" name="cd"
+			           value="${cd}"
+			           maxlength="10"
+			           placeholder="科目番号を入力してください">
+			</div>
 
                     <%-- 科目名！ --%>
                     <div class="mb-3">

@@ -12,12 +12,10 @@
 
     <c:param name="content">
         <section class="me-4">
-            <!-- ① 画面タイトル -->
             <h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">
                 科目情報変更
             </h2>
 
-            <!-- 変更フォーム -->
             <form action="SubjectUpdateExecute.action" method="post">
                 <div class="mx-4">
 
@@ -25,17 +23,17 @@
                     <div class="mb-3">
                         <label class="form-label">科目コード</label>
                         <input class="form-control" type="text"
-                               name="subject_code"
-                               value="${subject_code}"
+                               name="cd"
+                               value="${cd}"
                                readonly>
                     </div>
 
-                    <%-- 科目名（編集可）④⑤ --%>
+                    <%-- 科目名（編集可） --%>
                     <div class="mb-3">
                         <label class="form-label">科目名</label>
                         <input class="form-control" type="text"
-                               name="subject_name"
-                               value="${subject_name}"
+                               name="name"
+                               value="${name}"
                                maxlength="30"
                                placeholder="科目名を入力してください">
                     </div>
@@ -47,14 +45,14 @@
                         </div>
                     </c:if>
 
-                    <%-- 変更ボタン ⑥ --%>
+                    <%-- 変更ボタン --%>
                     <div class="mb-3">
                         <button class="btn btn-secondary" type="submit">
                             変更
                         </button>
                     </div>
 
-                    <%-- 戻るリンク ⑦ --%>
+                    <%-- 戻るリンク --%>
                     <a href="SubjectList.action">戻る</a>
 
                 </div>
@@ -62,4 +60,3 @@
         </section>
     </c:param>
 </c:import>
-``
