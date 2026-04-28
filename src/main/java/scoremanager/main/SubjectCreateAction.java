@@ -11,7 +11,7 @@ public class SubjectCreateAction extends Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
-        // 空の Subject を作成（フォーム初期表示用）!
+        // 空の Subject を作成（フォーム初期表示用）ｓ!
         Subject subject = new Subject();
 
         // リクエストにセット

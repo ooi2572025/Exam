@@ -73,7 +73,7 @@ public class SubjectDao extends Dao {
         }
     }
 
- // 更新（update）
+ // 更新しん（update）
     public void update(Subject subject) throws Exception {
         String sql = "UPDATE subject SET name=? WHERE cd=? AND school_cd=?";
 

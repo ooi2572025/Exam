@@ -13,7 +13,7 @@ public class SubjectCreateExecuteAction extends Action {
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
         // フォームから値を取得
-        String cd = req.getParameter("cd");     // ← id ではなく cd
+        String cd = req.getParameter("cd");     // ← id ではなく cdｓ
         String name = req.getParameter("name");
 
         // ログイン中の先生の school を取得

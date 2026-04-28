@@ -15,7 +15,7 @@
 
             <%-- No.1 画面タイトル！ --%>
             <h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">
-                科目情報登録
+                科目情報登録できた
             </h2>
 
             <div class="mx-4">

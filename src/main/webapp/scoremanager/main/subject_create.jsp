@@ -53,7 +53,7 @@
                         </button>
                     </div>
 
-                    <%-- 戻るリンク --%>
+                    <%-- 戻るリンクあ --%>
                     <a href="SubjectList.action">戻る</a>
 
                 </div>
