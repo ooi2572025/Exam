@@ -8,20 +8,32 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/FrontController")
+@WebServlet("*.action")
 public class FrontController extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-
-        response.getWriter().append("Served at: ").append(request.getContextPath());
+        doPost(req, res);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
 
-        doGet(request, response);
+        try {
+            String uri = req.getRequestURI();
+            String actionName =
+                uri.substring(uri.lastIndexOf("/") + 1, uri.indexOf(".action"));
+
+            String className = "scoremanager.main." + actionName + "Action";
+
+            Class<?> clazz = Class.forName(className);
+            Action action = (Action) clazz.getDeclaredConstructor().newInstance();
+            action.execute(req, res);
+
+        } catch (Exception e) {
+            throw new ServletException(e);
+        }
     }
 }
