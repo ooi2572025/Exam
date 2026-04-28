@@ -27,7 +27,7 @@ public class SubjectListAction extends Action {
         // ログインユーザーの学校コードをもとに科目一覧を取得
         subjects = subjectDao.filter(teacher.getSchool());
 
-        // レスポンス値をセット 6
+        // レスポンス値を 6
         // リクエストに科目リストをセット
         req.setAttribute("subjects", subjects);
 

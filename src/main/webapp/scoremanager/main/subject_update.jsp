@@ -21,7 +21,7 @@
             <form action="SubjectUpdateExecute.action" method="post">
                 <div class="mx-4">
 
-                    <%-- 科目コード（readonly）②③ --%>
+                    <%-- 科目コード（readonly） --%>
                     <div class="mb-3">
                         <label class="form-label">科目コード</label>
                         <input class="form-control" type="text"

@@ -24,7 +24,7 @@ public class SubjectUpdateExecuteAction extends Action {
         if (subjectName == null || subjectName.isEmpty()) {
 
             // エラーメッセージと入力値を再セット
-            req.setAttribute("errorMessage", "このフィールドを入力してください");
+            req.setAttribute("errorMessage", "このフィールド入力してください");
             req.setAttribute("subject_code", subjectCode);
             req.setAttribute("subject_name", subjectName);
 
