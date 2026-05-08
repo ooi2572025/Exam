@@ -92,7 +92,7 @@
                                 <td>
                                     <input type="text" class="form-control"
                                            name="point_${test.studentNo}"
-                                           value="${test.points}"
+                                           value="${not empty inputPoints[test.studentNo] ? inputPoints[test.studentNo] : test.points}"
                                            maxlength="3"
                                            style="width:80px;">
                                     <c:if test="${not empty errors[test.studentNo]}">

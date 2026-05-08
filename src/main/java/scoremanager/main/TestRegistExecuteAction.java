@@ -37,7 +37,18 @@ public class TestRegistExecuteAction extends Action {
         // エラーマップ（学生番号→エラーメッセージ）
         Map<String, String> errors = new HashMap<>();
 
+        // 入力値保持マップ
+        Map<String, String> inputPoints = new HashMap<>();
+
         if (studentNos != null) {
+
+            // 入力値を保持
+            for (String studentNo : studentNos) {
+                String pointStr = req.getParameter("point_" + studentNo);
+                if (pointStr != null) {
+                    inputPoints.put(studentNo, pointStr);
+                }
+            }
 
             // バリデーション
             for (String studentNo : studentNos) {
@@ -91,6 +102,7 @@ public class TestRegistExecuteAction extends Action {
                 }
 
                 req.setAttribute("errors", errors);
+                req.setAttribute("inputPoints", inputPoints);
                 req.setAttribute("tests", tests);
                 req.setAttribute("entYearList", entYearList);
                 req.setAttribute("classNumList", classNumList);
