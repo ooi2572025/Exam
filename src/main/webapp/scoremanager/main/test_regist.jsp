@@ -14,7 +14,7 @@
             <form method="get" action="TestRegist.action">
                 <div class="row border mx-3 mb-3 py-2 align-items-center rounded">
 
-                    <div class="col-3">
+                    <div class="col">
                         <label class="form-label">入学年度</label>
                         <select class="form-select" name="f1">
                             <option value="0">--------</option>
@@ -26,7 +26,7 @@
                         </select>
                     </div>
 
-                    <div class="col-3">
+                    <div class="col">
                         <label class="form-label">クラス</label>
                         <select class="form-select" name="f2">
                             <option value="0">--------</option>
@@ -38,7 +38,7 @@
                         </select>
                     </div>
 
-                    <div class="col-3">
+                    <div class="col">
                         <label class="form-label">科目</label>
                         <select class="form-select" name="f3">
                             <option value="0">--------</option>
@@ -50,7 +50,7 @@
                         </select>
                     </div>
 
-                    <div class="col-2">
+                    <div class="col">
                         <label class="form-label">回数</label>
                         <select class="form-select" name="f4">
                             <option value="0">--------</option>
@@ -62,7 +62,7 @@
                         </select>
                     </div>
 
-                    <div class="col-1 text-center mt-4">
+                    <div class="col-auto mt-4">
                         <button class="btn btn-secondary" type="submit">検索</button>
                     </div>
 
@@ -95,7 +95,6 @@
                                            value="${test.points}"
                                            maxlength="3"
                                            style="width:80px;">
-                                    <%-- 各学生の点数フィールド下にエラーメッセージ表示 --%>
                                     <c:if test="${not empty errors[test.studentNo]}">
                                         <div class="text-warning small">${errors[test.studentNo]}</div>
                                     </c:if>
@@ -107,9 +106,10 @@
                     </table>
 
                     <input type="hidden" name="subject" value="${f3}">
-					<input type="hidden" name="count" value="${f4}">
-					<input type="hidden" name="f1" value="${f1}">
-					<input type="hidden" name="f2" value="${f2}">
+                    <input type="hidden" name="count" value="${f4}">
+                    <input type="hidden" name="f1" value="${f1}">
+                    <input type="hidden" name="f2" value="${f2}">
+
                     <div class="mx-3 mb-3">
                         <button class="btn btn-secondary" type="submit">登録して終了</button>
                     </div>
