@@ -20,28 +20,36 @@ public class TestListAction extends Action {
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
 
         HttpSession session = req.getSession();
+
+        // ★ ログインチェック
         Teacher teacher = (Teacher) session.getAttribute("user");
+        if (teacher == null || teacher.getSchool() == null) {
+            res.sendRedirect("Login.action");
+            return;
+        }
+
         School school = teacher.getSchool();
 
-        // 入学年度リスト
+        /* ===== 入学年度リスト（今年〜10年前） ===== */
         LocalDate today = LocalDate.now();
         int year = today.getYear();
         List<Integer> entYearList = new ArrayList<>();
-        for (int i = year - 10; i < year + 1; i++) {
+        for (int i = year - 10; i <= year; i++) {
             entYearList.add(i);
         }
 
-        // クラスリスト
+        /* ===== クラスリスト ===== */
         ClassNumDao classNumDao = new ClassNumDao();
         List<String> classNumList = classNumDao.filter(school);
 
-        // 科目リスト
+        /* ===== 科目リスト ===== */
         SubjectDao subjectDao = new SubjectDao();
         List<Subject> subjectList = subjectDao.filterBySchool(school);
 
-        req.setAttribute("entYearList", entYearList);
-        req.setAttribute("classNumList", classNumList);
-        req.setAttribute("subjectList", subjectList);
+        /* ===== JSPへ渡す（JSP の名前に合わせる） ===== */
+        req.setAttribute("ent_year_set", entYearList);
+        req.setAttribute("class_num_set", classNumList);
+        req.setAttribute("subject_set", subjectList);
 
         req.getRequestDispatcher("test_list.jsp").forward(req, res);
     }
