@@ -11,8 +11,7 @@ import bean.TestListSubject;
 
 public class TestListSubjectDao extends Dao {
 
-	
-    public List<TestListSubject> filter(School school, int entYear, String classNum, String subjectCd) throws Exception {
+    public List<TestListSubject> filter(School school, int entYear, String classNum, String subjectCd, int no) throws Exception {
 
         List<TestListSubject> list = new ArrayList<>();
 
@@ -22,6 +21,7 @@ public class TestListSubjectDao extends Dao {
                      "ON s.student_no = t.student_no " +
                      "AND t.subject_cd = ? " +
                      "AND t.school_cd = ? " +
+                     "AND t.no = ? " +
                      "WHERE s.school_cd = ? " +
                      "AND s.ent_year = ? " +
                      "AND s.class_num = ? " +
@@ -32,9 +32,10 @@ public class TestListSubjectDao extends Dao {
 
             st.setString(1, subjectCd);
             st.setString(2, school.getSchoolCd());
-            st.setString(3, school.getSchoolCd());
-            st.setInt(4, entYear);
-            st.setString(5, classNum);
+            st.setInt(3, no);
+            st.setString(4, school.getSchoolCd());
+            st.setInt(5, entYear);
+            st.setString(6, classNum);
 
             ResultSet rs = st.executeQuery();
 

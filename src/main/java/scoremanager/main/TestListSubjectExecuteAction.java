@@ -29,6 +29,7 @@ public class TestListSubjectExecuteAction extends Action {
         String f1 = req.getParameter("f1"); // 入学年度
         String f2 = req.getParameter("f2"); // クラス
         String f3 = req.getParameter("f3"); // 科目
+        String f4 = req.getParameter("f4"); // 回数
 
         // 入学年度リスト
         LocalDate today = LocalDate.now();
@@ -52,6 +53,7 @@ public class TestListSubjectExecuteAction extends Action {
         req.setAttribute("f1", f1);
         req.setAttribute("f2", f2);
         req.setAttribute("f3", f3);
+        req.setAttribute("f4", f4);
 
         // 入力チェック
         if (f1 == null || f1.equals("0") ||
@@ -65,7 +67,9 @@ public class TestListSubjectExecuteAction extends Action {
 
         // 成績データ取得
         TestListSubjectDao dao = new TestListSubjectDao();
-        List<TestListSubject> tests = dao.filter(school, Integer.parseInt(f1), f2, f3);
+        List<TestListSubject> tests = dao.filter(
+            school, Integer.parseInt(f1), f2, f3,
+            f4 != null && !f4.equals("0") ? Integer.parseInt(f4) : 0);
 
         if (tests.isEmpty()) {
             req.setAttribute("errorMessage", "学生情報が存在しませんでした");
