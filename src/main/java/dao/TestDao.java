@@ -11,7 +11,6 @@ import bean.Test;
 
 public class TestDao extends Dao {
 
-
     public List<Test> filter(School school, int entYear, String classNum, String subjectCd, int no) throws Exception {
 
         List<Test> list = new ArrayList<>();
@@ -88,6 +87,22 @@ public class TestDao extends Dao {
                 }
                 st2.executeUpdate();
             }
+        }
+    }
+
+    // 削除メソッド追加
+    public void delete(School school, String studentNo, String subjectCd, int no) throws Exception {
+
+        String sql = "DELETE FROM test WHERE student_no=? AND subject_cd=? AND school_cd=? AND no=?";
+
+        try (Connection con = getConnection();
+             PreparedStatement st = con.prepareStatement(sql)) {
+
+            st.setString(1, studentNo);
+            st.setString(2, subjectCd);
+            st.setString(3, school.getSchoolCd());
+            st.setInt(4, no);
+            st.executeUpdate();
         }
     }
 }

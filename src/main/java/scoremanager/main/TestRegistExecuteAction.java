@@ -34,7 +34,62 @@ public class TestRegistExecuteAction extends Action {
         String f2           = req.getParameter("f2");
         String[] studentNos = req.getParameterValues("regist");
 
-        // エラーマップ（学生番号→エラーメッセージ）
+        // 削除処理チェック
+        if (studentNos != null) {
+            for (String studentNo : studentNos) {
+                String deleteParam = req.getParameter("delete_" + studentNo);
+                if (deleteParam != null) {
+
+                    // 削除実行
+                    TestDao testDao = new TestDao();
+                    testDao.delete(school, studentNo, subjectCd, Integer.parseInt(noStr));
+
+                    // 削除後に画面を再表示
+                    TestListSubjectDao testListDao = new TestListSubjectDao();
+                    List<TestListSubject> tests = testListDao.filter(
+                        school, Integer.parseInt(f1), f2, subjectCd, Integer.parseInt(noStr));
+
+                    LocalDate today = LocalDate.now();
+                    int year = today.getYear();
+                    List<Integer> entYearList = new ArrayList<>();
+                    for (int i = year - 10; i < year + 1; i++) {
+                        entYearList.add(i);
+                    }
+
+                    ClassNumDao classNumDao = new ClassNumDao();
+                    List<String> classNumList = classNumDao.filter(school);
+
+                    SubjectDao subjectDao = new SubjectDao();
+                    List<Subject> subjectList = subjectDao.filterBySchool(school);
+
+                    List<Integer> noList = new ArrayList<>();
+                    for (int i = 1; i <= 10; i++) {
+                        noList.add(i);
+                    }
+
+                    for (Subject s : subjectList) {
+                        if (s.getCd().equals(subjectCd)) {
+                            req.setAttribute("subjectName", s.getName());
+                            break;
+                        }
+                    }
+
+                    req.setAttribute("tests", tests);
+                    req.setAttribute("entYearList", entYearList);
+                    req.setAttribute("classNumList", classNumList);
+                    req.setAttribute("subjectList", subjectList);
+                    req.setAttribute("noList", noList);
+                    req.setAttribute("f1", f1);
+                    req.setAttribute("f2", f2);
+                    req.setAttribute("f3", subjectCd);
+                    req.setAttribute("f4", noStr);
+                    req.getRequestDispatcher("test_regist.jsp").forward(req, res);
+                    return;
+                }
+            }
+        }
+
+        // エラーマップ
         Map<String, String> errors = new HashMap<>();
 
         // 入力値保持マップ
@@ -69,12 +124,10 @@ public class TestRegistExecuteAction extends Action {
             // エラーがある場合は登録画面に戻す
             if (!errors.isEmpty()) {
 
-                // 一覧を再取得
                 TestListSubjectDao testDao = new TestListSubjectDao();
                 List<TestListSubject> tests = testDao.filter(
                     school, Integer.parseInt(f1), f2, subjectCd, Integer.parseInt(noStr));
 
-                // 各種リストを再セット
                 LocalDate today = LocalDate.now();
                 int year = today.getYear();
                 List<Integer> entYearList = new ArrayList<>();
@@ -93,7 +146,6 @@ public class TestRegistExecuteAction extends Action {
                     noList.add(i);
                 }
 
-                // 科目名をセット
                 for (Subject s : subjectList) {
                     if (s.getCd().equals(subjectCd)) {
                         req.setAttribute("subjectName", s.getName());
@@ -116,7 +168,7 @@ public class TestRegistExecuteAction extends Action {
                 return;
             }
 
-            // バリデーションOKの場合のみ保存
+            // 保存処理
             TestDao testDao = new TestDao();
             for (String studentNo : studentNos) {
                 String pointStr = req.getParameter("point_" + studentNo);
