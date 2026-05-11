@@ -15,14 +15,14 @@ public class TestListStudentDao extends Dao {
 
         List<TestListStudent> list = new ArrayList<>();
 
-        String sql = "SELECT sub.cd AS subject_cd, sub.name AS subject_name, t.no, t.point " +
+        String sql = "SELECT sub.subject_cd, sub.subject_name, t.no, t.point " +
                      "FROM subject sub " +
                      "LEFT JOIN test t " +
-                     "ON sub.cd = t.subject_cd " +
+                     "ON sub.subject_cd = t.subject_cd " +
                      "AND t.student_no = ? " +
                      "AND t.school_cd = ? " +
                      "WHERE sub.school_cd = ? " +
-                     "ORDER BY sub.cd ASC, t.no ASC";
+                     "ORDER BY sub.subject_cd ASC, t.no ASC";
 
         try (Connection con = getConnection();
              PreparedStatement st = con.prepareStatement(sql)) {
@@ -42,6 +42,7 @@ public class TestListStudentDao extends Dao {
                 if (!rs.wasNull()) {
                     t.setNo(no);
                 }
+
                 int point = rs.getInt("point");
                 if (!rs.wasNull()) {
                     t.setPoint(point);

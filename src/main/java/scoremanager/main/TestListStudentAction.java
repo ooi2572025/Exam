@@ -22,28 +22,27 @@ public class TestListStudentAction extends Action {
         Teacher teacher = (Teacher) session.getAttribute("user");
         School school = teacher.getSchool();
 
-        // ▼ 入学年度リスト
+        // 入学年度リスト
         LocalDate today = LocalDate.now();
         int year = today.getYear();
-        List<Integer> entYearList = new ArrayList<>();
+        List<Integer> admissionYearList = new ArrayList<>();
         for (int i = year - 10; i <= year; i++) {
-            entYearList.add(i);
+            admissionYearList.add(i);
         }
 
-        // ▼ クラスリスト
+        // クラスリスト
         ClassNumDao classNumDao = new ClassNumDao();
-        List<String> classNumList = classNumDao.filter(school);
+        List<String> classList = classNumDao.filter(school);
 
-        // ▼ 科目リスト
+        // 科目リスト
         SubjectDao subjectDao = new SubjectDao();
         List<?> subjectList = subjectDao.filterBySchool(school);
 
-        // ▼ JSP にセット
-        req.setAttribute("entYearList", entYearList);
-        req.setAttribute("classNumList", classNumList);
+        // JSPにセット
+        req.setAttribute("admissionYearList", admissionYearList);
+        req.setAttribute("classList", classList);
         req.setAttribute("subjectList", subjectList);
 
-        // ▼ 初期表示へ
         req.getRequestDispatcher("test_list_student.jsp").forward(req, res);
     }
 }

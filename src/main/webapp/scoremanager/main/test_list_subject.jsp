@@ -1,4 +1,4 @@
-<%-- 学生別成績一覧JSP --%>
+<%-- 科目別成績一覧JSP --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
@@ -8,7 +8,7 @@
     <c:param name="scripts"></c:param>
     <c:param name="content">
         <section class="me-4">
-            <h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">成績一覧（学生）</h2>
+            <h2 class="h3 mb-3 fw-normal bg-secondary bg-opacity-10 py-2 px-4">成績一覧（科目）</h2>
 
             <div class="mx-3">
 
@@ -87,41 +87,49 @@
                 </div>
 
                 <%-- エラーメッセージ --%>
-                <c:if test="${not empty errorMsg}">
-                    <div class="mt-2 text-warning">${errorMsg}</div>
+                <c:if test="${not empty errorMessage}">
+                    <div class="mt-2 text-warning">${errorMessage}</div>
                 </c:if>
 
-                <%-- 氏名表示 --%>
-                <c:if test="${not empty studentInfo}">
-                    <div class="mb-2">
-                        氏名：${studentInfo.studentName}（${studentInfo.studentNo}）
-                    </div>
+                <%-- 科目名表示 --%>
+                <c:if test="${not empty subjectName}">
+                    <div class="mb-2">科目：${subjectName}</div>
                 </c:if>
 
                 <%-- 成績一覧テーブル --%>
-                <c:if test="${not empty scoreList}">
+                <c:if test="${not empty tests}">
                     <div class="border rounded p-2">
                         <table class="table table-hover mb-0">
                             <tr>
-                                <th>科目名</th>
-                                <th>科目コード</th>
-                                <th>回数</th>
-                                <th>点数</th>
+                                <th>入学年度</th>
+                                <th>クラス</th>
+                                <th>学生番号</th>
+                                <th>氏名</th>
+                                <th>1回の点数</th>
+                                <th>2回の点数</th>
                             </tr>
-                            <c:forEach var="score" items="${scoreList}">
+                            <c:forEach var="test" items="${tests}">
                                 <tr>
-                                    <td>${score.subjectName}</td>
-                                    <td>${score.subjectCd}</td>
-                                    <td>${score.no}</td>
-                                    <td>${score.point}</td>
+                                    <td>${test.entYear}</td>
+                                    <td>${test.classNum}</td>
+                                    <td>${test.studentNo}</td>
+                                    <td>${test.studentName}</td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${test.points != null}">${test.points}</c:when>
+                                            <c:otherwise>-</c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${test.points2 != null}">${test.points2}</c:when>
+                                            <c:otherwise>-</c:otherwise>
+                                        </c:choose>
+                                    </td>
                                 </tr>
                             </c:forEach>
                         </table>
                     </div>
-                </c:if>
-
-                <c:if test="${searchDone and empty scoreList and empty errorMsg}">
-                    <div class="text-warning">成績情報が存在しませんでした。</div>
                 </c:if>
 
             </div>
