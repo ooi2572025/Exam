@@ -1,12 +1,17 @@
 package scoremanager.main;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import bean.School;
 import bean.Student;
+import bean.Subject;
 import bean.Teacher;
 import bean.TestListStudent;
+import dao.ClassNumDao;
 import dao.StudentDao;
+import dao.SubjectDao;
 import dao.TestListStudentDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,6 +28,27 @@ public class TestListStudentExecuteAction extends Action {
         School school = teacher.getSchool();
 
         String f4 = req.getParameter("f4"); // 学生番号
+
+        // 入学年度リスト
+        LocalDate today = LocalDate.now();
+        int year = today.getYear();
+        List<Integer> entYearList = new ArrayList<>();
+        for (int i = year - 10; i < year + 1; i++) {
+            entYearList.add(i);
+        }
+
+        // クラスリスト
+        ClassNumDao classNumDao = new ClassNumDao();
+        List<String> classNumList = classNumDao.filter(school);
+
+        // 科目リスト
+        SubjectDao subjectDao = new SubjectDao();
+        List<Subject> subjectList = subjectDao.filterBySchool(school);
+
+        req.setAttribute("entYearList", entYearList);
+        req.setAttribute("classNumList", classNumList);
+        req.setAttribute("subjectList", subjectList);
+        req.setAttribute("f4", f4);
 
         // 未入力チェック
         if (f4 == null || f4.isEmpty()) {
@@ -41,7 +67,7 @@ public class TestListStudentExecuteAction extends Action {
             return;
         }
 
-        // 成績一覧取得（点数がnullのものは除外）
+        // 成績一覧取得
         TestListStudentDao testDao = new TestListStudentDao();
         List<TestListStudent> scoreList = testDao.filter(school, f4);
 

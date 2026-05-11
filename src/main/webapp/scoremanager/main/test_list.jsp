@@ -30,7 +30,7 @@
                         <%-- No.3 入学年度ラベル・No.6 セレクトボックス --%>
                         <div class="col-3">
                             <label class="form-label">入学年度</label>
-                            <select class="form-select" name="f1">
+                            <select class="form-select form-select-sm" name="f1" size="1">
                                 <option value="0">--------</option>
                                 <c:forEach var="year" items="${entYearList}">
                                     <option value="${year}"
@@ -43,7 +43,7 @@
                         <%-- No.4 クラスラベル・No.7 セレクトボックス --%>
                         <div class="col-3">
                             <label class="form-label">クラス</label>
-                            <select class="form-select" name="f2">
+                            <select class="form-select form-select-sm" name="f2" size="1">
                                 <option value="0">--------</option>
                                 <c:forEach var="classNum" items="${classNumList}">
                                     <option value="${classNum}"
@@ -56,7 +56,7 @@
                         <%-- No.5 科目ラベル・No.8 セレクトボックス --%>
                         <div class="col-3">
                             <label class="form-label">科目</label>
-                            <select class="form-select" name="f3">
+                            <select class="form-select form-select-sm" name="f3" size="1">
                                 <option value="0">--------</option>
                                 <c:forEach var="subject" items="${subjectList}">
                                     <option value="${subject.cd}"

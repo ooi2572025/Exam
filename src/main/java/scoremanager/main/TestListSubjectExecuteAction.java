@@ -58,18 +58,18 @@ public class TestListSubjectExecuteAction extends Action {
             f3 == null || f3.equals("0")) {
 
             req.setAttribute("errorMessage", "入学年度とクラスと科目を選択してください");
-            req.getRequestDispatcher("test_list.jsp").forward(req, res);
+            req.getRequestDispatcher("test_list_subject.jsp").forward(req, res);
             return;
         }
 
         // 成績データ取得
         TestListSubjectDao dao = new TestListSubjectDao();
         List<TestListSubject> tests = dao.filter(
-        	    school, Integer.parseInt(f1), f2, f3);
+            school, Integer.parseInt(f1), f2, f3);
 
         if (tests.isEmpty()) {
             req.setAttribute("errorMessage", "学生情報が存在しませんでした");
-            req.getRequestDispatcher("test_list.jsp").forward(req, res);
+            req.getRequestDispatcher("test_list_subject.jsp").forward(req, res);
             return;
         }
 
