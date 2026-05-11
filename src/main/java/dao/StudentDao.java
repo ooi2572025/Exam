@@ -25,7 +25,7 @@ public class StudentDao extends Dao {
 
 		try {
 			// プリペアードステートメントにSQL文をセット
-			statement = connection.prepareStatement("select * from student where no = ?");
+			statement = connection.prepareStatement("select * from student where student_no = ?");
 			// プリペアードステートメントに学生番号をバインド
 			statement.setString(1, no);
 			// プリペアードステートメントを実行

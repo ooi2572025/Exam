@@ -90,11 +90,18 @@
                                 <td>${test.studentNo}</td>
                                 <td>${test.studentName}</td>
                                 <td>
-                                    <input type="text" class="form-control"
-                                           name="point_${test.studentNo}"
-                                           value="${not empty inputPoints[test.studentNo] ? inputPoints[test.studentNo] : test.points}"
-                                           maxlength="3"
-                                           style="width:80px;">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <input type="text" class="form-control"
+                                               name="point_${test.studentNo}"
+                                               value="${not empty inputPoints[test.studentNo] ? inputPoints[test.studentNo] : test.points}"
+                                               maxlength="3"
+                                               style="width:80px;">
+                                        <c:if test="${test.points != null}">
+                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                    name="delete_${test.studentNo}"
+                                                    value="${test.studentNo}">削除</button>
+                                        </c:if>
+                                    </div>
                                     <c:if test="${not empty errors[test.studentNo]}">
                                         <div class="text-warning small">${errors[test.studentNo]}</div>
                                     </c:if>
