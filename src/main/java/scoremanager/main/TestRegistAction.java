@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
-public class TestListSubjectAction extends Action {
+public class TestRegistAction extends Action {
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws Exception {
@@ -47,7 +47,7 @@ public class TestListSubjectAction extends Action {
         SubjectDao subjectDao = new SubjectDao();
         List<Subject> subjectList = subjectDao.filterBySchool(school);
 
-        // 回数リスト
+        // 回数リスト（1〜10回）
         List<Integer> noList = new ArrayList<>();
         for (int i = 1; i <= 10; i++) {
             noList.add(i);
@@ -62,26 +62,34 @@ public class TestListSubjectAction extends Action {
         req.setAttribute("f3", f3);
         req.setAttribute("f4", f4);
 
-        // 検索条件が揃っている場合
+        // 検索条件が全て揃っている場合
         if (f1 != null && !f1.equals("0") &&
             f2 != null && !f2.equals("0") &&
             f3 != null && !f3.equals("0") &&
             f4 != null && !f4.equals("0")) {
 
-            TestListSubjectDao dao = new TestListSubjectDao();
-            List<TestListSubject> tests = dao.filter(
-                school, Integer.parseInt(f1), f2, f3, Integer.parseInt(f4));
+            TestListSubjectDao testDao = new TestListSubjectDao();
+            List<TestListSubject> tests = testDao.filter(
+            	    school, Integer.parseInt(f1), f2, f3, Integer.parseInt(f4));
 
             if (tests.isEmpty()) {
                 req.setAttribute("errorMessage", "学生情報が存在しませんでした");
             } else {
                 req.setAttribute("tests", tests);
+
+                // 科目名をセット
+                for (Subject s : subjectList) {
+                    if (s.getCd().equals(f3)) {
+                        req.setAttribute("subjectName", s.getName());
+                        break;
+                    }
+                }
             }
 
         } else if (f1 != null) {
-            req.setAttribute("errorMessage", "入学年度とクラスと科目を選択してください");
+            req.setAttribute("errorMessage", "入学年度とクラスと科目と回数を選択してください");
         }
 
-        req.getRequestDispatcher("test_list_subject.jsp").forward(req, res);
+        req.getRequestDispatcher("test_regist.jsp").forward(req, res);
     }
 }

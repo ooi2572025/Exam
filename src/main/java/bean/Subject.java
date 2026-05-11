@@ -4,7 +4,7 @@ public class Subject {
 
     private String schoolCd;
     private String cd;        // テーブル物理名: CD
-    private String name;      // テーブル物理名: NAME
+    private String subject_Name;      // テーブル物理名: NAME
 
     public String getSchoolCd() {
         return schoolCd;
@@ -19,9 +19,9 @@ public class Subject {
         this.cd = cd;
     }
     public String getName() {
-        return name;
+        return subject_Name;
     }
     public void setName(String name) {
-        this.name = name;
+        this.subject_Name = name;
     }
 }
