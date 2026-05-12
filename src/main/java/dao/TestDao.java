@@ -11,21 +11,23 @@ import bean.Test;
 
 public class TestDao extends Dao {
 
-    public List<Test> filter(School school, int entYear, String classNum, String subjectCd, int no) throws Exception {
+    public List<Test> filter(School school, int entYear, String classNum,
+                             String subjectCd, int no) throws Exception {
 
         List<Test> list = new ArrayList<>();
 
-        String sql = "SELECT s.student_no, s.student_name, s.ent_year, s.class_num, t.point " +
-                     "FROM student s " +
-                     "LEFT JOIN test t " +
-                     "ON s.student_no = t.student_no " +
-                     "AND t.subject_cd = ? " +
-                     "AND t.school_cd = ? " +
-                     "AND t.no = ? " +
-                     "WHERE s.school_cd = ? " +
-                     "AND s.ent_year = ? " +
-                     "AND s.class_num = ? " +
-                     "ORDER BY s.student_no ASC";
+        String sql =
+            "SELECT s.student_no, s.student_name, s.ent_year, s.class_num, t.point " +
+            "FROM student s " +
+            "LEFT JOIN test t " +
+            "ON s.student_no = t.student_no " +
+            "AND t.subject_cd = ? " +
+            "AND t.school_cd = ? " +
+            "AND t.no = ? " +
+            "WHERE s.school_cd = ? " +
+            "AND s.ent_year = ? " +
+            "AND s.class_num = ? " +
+            "ORDER BY s.student_no ASC";
 
         try (Connection con = getConnection();
              PreparedStatement st = con.prepareStatement(sql)) {
@@ -43,6 +45,7 @@ public class TestDao extends Dao {
                 Test t = new Test();
                 t.setStudentNo(rs.getString("student_no"));
                 t.setClassNum(rs.getString("class_num"));
+
                 int point = rs.getInt("point");
                 if (!rs.wasNull()) {
                     t.setPoint(point);
@@ -53,9 +56,12 @@ public class TestDao extends Dao {
         return list;
     }
 
-    public void save(School school, String studentNo, String subjectCd, int no, Integer point, String classNum) throws Exception {
+    public void save(School school, String studentNo, String subjectCd,
+                     int no, Integer point, String classNum) throws Exception {
 
-        String checkSql = "SELECT COUNT(*) FROM test WHERE student_no=? AND subject_cd=? AND school_cd=? AND no=?";
+        String checkSql =
+            "SELECT COUNT(*) FROM test " +
+            "WHERE student_no=? AND subject_cd=? AND school_cd=? AND no=?";
 
         try (Connection con = getConnection();
              PreparedStatement st = con.prepareStatement(checkSql)) {
@@ -71,9 +77,13 @@ public class TestDao extends Dao {
 
             String sql;
             if (count > 0) {
-                sql = "UPDATE test SET point=? WHERE student_no=? AND subject_cd=? AND school_cd=? AND no=?";
+                sql =
+                    "UPDATE test SET point=? " +
+                    "WHERE student_no=? AND subject_cd=? AND school_cd=? AND no=?";
             } else {
-                sql = "INSERT INTO test(point, student_no, subject_cd, school_cd, no, class_num) VALUES(?,?,?,?,?,?)";
+                sql =
+                    "INSERT INTO test(point, student_no, subject_cd, school_cd, no, class_num) " +
+                    "VALUES(?,?,?,?,?,?)";
             }
 
             try (PreparedStatement st2 = con.prepareStatement(sql)) {
@@ -90,10 +100,13 @@ public class TestDao extends Dao {
         }
     }
 
-    // 削除メソッド追加
-    public void delete(School school, String studentNo, String subjectCd, int no) throws Exception {
+    // ✅ 削除
+    public void delete(School school, String studentNo,
+                       String subjectCd, int no) throws Exception {
 
-        String sql = "DELETE FROM test WHERE student_no=? AND subject_cd=? AND school_cd=? AND no=?";
+        String sql =
+            "DELETE FROM test " +
+            "WHERE student_no=? AND subject_cd=? AND school_cd=? AND no=?";
 
         try (Connection con = getConnection();
              PreparedStatement st = con.prepareStatement(sql)) {
@@ -102,6 +115,28 @@ public class TestDao extends Dao {
             st.setString(2, subjectCd);
             st.setString(3, school.getSchoolCd());
             st.setInt(4, no);
+            st.executeUpdate();
+        }
+    }
+
+    // ✅ 変更（点数更新）
+    public void updatePoint(School school, String studentNo,
+                            String subjectCd, int no, int point)
+            throws Exception {
+
+        String sql =
+            "UPDATE test SET point=? " +
+            "WHERE student_no=? AND subject_cd=? AND school_cd=? AND no=?";
+
+        try (Connection con = getConnection();
+             PreparedStatement st = con.prepareStatement(sql)) {
+
+            st.setInt(1, point);
+            st.setString(2, studentNo);
+            st.setString(3, subjectCd);
+            st.setString(4, school.getSchoolCd());
+            st.setInt(5, no);
+
             st.executeUpdate();
         }
     }

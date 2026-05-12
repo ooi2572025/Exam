@@ -31,23 +31,19 @@ public class TestRegistAction extends Action {
         String f3 = req.getParameter("f3"); // 科目
         String f4 = req.getParameter("f4"); // 回数
 
-        // 入学年度リスト
         LocalDate today = LocalDate.now();
         int year = today.getYear();
         List<Integer> entYearList = new ArrayList<>();
-        for (int i = year - 10; i < year + 1; i++) {
+        for (int i = year - 10; i <= year; i++) {
             entYearList.add(i);
         }
 
-        // クラスリスト
         ClassNumDao classNumDao = new ClassNumDao();
         List<String> classNumList = classNumDao.filter(school);
 
-        // 科目リスト
         SubjectDao subjectDao = new SubjectDao();
         List<Subject> subjectList = subjectDao.filterBySchool(school);
 
-        // 回数リスト（1〜10回）
         List<Integer> noList = new ArrayList<>();
         for (int i = 1; i <= 10; i++) {
             noList.add(i);
@@ -62,32 +58,39 @@ public class TestRegistAction extends Action {
         req.setAttribute("f3", f3);
         req.setAttribute("f4", f4);
 
-        // 検索条件が全て揃っている場合
-        if (f1 != null && !f1.equals("0") &&
-            f2 != null && !f2.equals("0") &&
-            f3 != null && !f3.equals("0") &&
-            f4 != null && !f4.equals("0")) {
 
-            TestListSubjectDao testDao = new TestListSubjectDao();
-            List<TestListSubject> tests = testDao.filter(
-            	    school, Integer.parseInt(f1), f2, f3, Integer.parseInt(f4));
+        if (f1 == null || f1.isEmpty() || f1.equals("0") ||
+            f2 == null || f2.isEmpty() || f2.equals("0") ||
+            f3 == null || f3.isEmpty() || f3.equals("0") ||
+            f4 == null || f4.isEmpty() || f4.equals("0")) {
 
-            if (tests.isEmpty()) {
-                req.setAttribute("errorMessage", "学生情報が存在しませんでした");
-            } else {
-                req.setAttribute("tests", tests);
+            // 初期表示（検索しない）
+            req.getRequestDispatcher("test_regist.jsp").forward(req, res);
+            return;
+        }
 
-                // 科目名をセット
-                for (Subject s : subjectList) {
-                    if (s.getCd().equals(f3)) {
-                        req.setAttribute("subjectName", s.getName());
-                        break;
-                    }
+
+        TestListSubjectDao testDao = new TestListSubjectDao();
+        List<TestListSubject> tests = testDao.filter(
+                school,
+                Integer.parseInt(f1),
+                f2,
+                f3,
+                Integer.parseInt(f4)
+        );
+
+        if (tests.isEmpty()) {
+            req.setAttribute("errorMessage", "学生情報が存在しませんでした");
+        } else {
+            req.setAttribute("tests", tests);
+
+            // 科目名セット
+            for (Subject s : subjectList) {
+                if (s.getCd().equals(f3)) {
+                    req.setAttribute("subjectName", s.getName());
+                    break;
                 }
             }
-
-        } else if (f1 != null) {
-            req.setAttribute("errorMessage", "入学年度とクラスと科目と回数を選択してください");
         }
 
         req.getRequestDispatcher("test_regist.jsp").forward(req, res);
