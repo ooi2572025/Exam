@@ -55,14 +55,14 @@
                     <div class="col-3">
                         <label class="form-label">科目</label>
                         <select class="form-select" name="subjectCd">
-                            <option value="">--------</option>
-                            <c:forEach var="sub" items="${subject_set}">
-                                <option value="${sub.subjectCd}"
-                                    <c:if test="${sub.subjectCd == subjectCd}">selected</c:if>>
-                                    ${sub.subjectName}
-                                </option>
-                            </c:forEach>
-                        </select>
+						    <option value="">--------</option>
+						    <c:forEach var="sub" items="${subject_set}">
+						        <option value="${sub.cd}"
+						            <c:if test="${sub.cd == subjectCd}">selected</c:if>>
+						            ${sub.name}
+						        </option>
+						    </c:forEach>
+						</select>
                     </div>
 
                     <div class="col-3 text-center">

@@ -6,30 +6,27 @@ import java.util.TreeSet;
 
 import bean.School;
 import bean.Student;
+import bean.Teacher;
 import dao.ClassNumDao;
 import dao.StudentDao;
 import dao.SubjectDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import tool.Action;
 
 public class TestListAction extends Action {
 
     @Override
-    public void execute(HttpServletRequest request,
-                        HttpServletResponse response)
-            throws Exception {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        School school =
-            (School) request.getSession().getAttribute("school");
+        HttpSession session = request.getSession();
+        Teacher teacher = (Teacher) session.getAttribute("user");
+        School school = teacher.getSchool();
 
         /* ===== 入学年度 ===== */
         StudentDao studentDao = new StudentDao();
-
-        // 在学中・卒業生すべて取得
         List<Student> students = studentDao.filter(school, false);
-
-        // 重複なし・昇順にする
         Set<Integer> entYearSet = new TreeSet<>();
         for (Student s : students) {
             entYearSet.add(s.getEntYear());
@@ -48,7 +45,6 @@ public class TestListAction extends Action {
         request.setAttribute("class_num_set", classNumSet);
         request.setAttribute("subject_set", subjectSet);
 
-        request.getRequestDispatcher("test_list.jsp")
-               .forward(request, response);
+        request.getRequestDispatcher("test_list.jsp").forward(request, response);
     }
 }
